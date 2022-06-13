@@ -1,5 +1,5 @@
 <?php
-require_once("conexao.php");
+include_once("conexao.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +21,7 @@ require_once("conexao.php");
     //Verificar se o botão foi apertado. Literalmente, se ele não está "vazio"
     if (!empty($dados["cadastro"])) {
         $input_vazio = false;
-
+        var_dump($dados);
         //Retira todos os espaços anteriores e posteriores a uma String
         $dados = array_map('trim', $dados);
 
@@ -40,14 +40,15 @@ require_once("conexao.php");
             //Se a confirmação da senha for igual a senha, então realize o que está a seguir
             if ($dados["confirmar_senha"] == $dados["senha"]) {
                 //Comando para inserir os dados no banco
-                $sql = "INSERT INTO usuarios VALUES(
-        null, " . $dados["nome"] . ", " . $dados["sobrenome"] . ", " . $dados["idade"] . ", 
-        " . $dados["email"] . ", " . $dados["senha"] . ", " . $dados["confirmar_senha"] . ")";
-
+                $sql = "INSERT INTO usuarios(nome, sobrenome, email, senha, confirmacao_senha) 
+                VALUES('" . $dados["nome"] . "', '" . $dados["sobrenome"] . "', '" . $dados["email"] . "', 
+                " . $dados["senha"] . ", " . $dados["confirmar_senha"] . ");";
+                
                 //Comandos para cadastrar no banco e confirmar o cadastro
                 $result = $con->query($sql);
-                if ($result->affected_rows > 0) {
+                if ($result) {
                     echo "<p style = 'color: green;'>Cadastrado com sucesso :)</p>";
+                    unset($dados);
                 } else {
                     echo "<p style = 'color: red;'>Não foi possível cadastrar :(</p>";
                 }
@@ -60,16 +61,25 @@ require_once("conexao.php");
 
     <form action="" method="post">
         <label for="nome">Nome: </label>
-        <input type="text" name="nome" id="nome" placeholder="Seu nome"><br><br>
+        <input type="text" name="nome" id="nome" placeholder="Seu nome" value="<?php
+        if(isset($dados["nome"])){
+            echo $dados["nome"];
+        }
+        ?>"><br><br>
 
         <label for="sobrenome">Sobrenome: </label>
-        <input type="text" name="sobrenome" id="sobrenome" placeholder="Seu sobrenome"><br><br>
-
-        <label for="idade">Idade: </label>
-        <input type="number" name="idade" id="idade"><br><br>
+        <input type="text" name="sobrenome" id="sobrenome" placeholder="Seu sobrenome" value="<?php
+        if(isset($dados["sobrenome"])){
+            echo $dados["sobrenome"];
+        }
+        ?>"><br><br>
 
         <label for="email">Email: </label>
-        <input type="email" name="email" id="email" placeholder="Informe seu melhor email"><br><br>
+        <input type="email" name="email" id="email" placeholder="Informe seu melhor email" value="<?php
+        if(isset($dados["email"])){
+            echo $dados["email"];
+        }
+        ?>"><br><br>
 
         <label for="senha">Senha: </label>
         <input type="password" name="senha" id="senha" placeholder="Sua senha"><br><br>
