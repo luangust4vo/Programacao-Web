@@ -27,24 +27,25 @@ include_once("conexao.php");
         <?php
         $sql = "SELECT * FROM usuarios ORDER BY nome;";
 
-        $id = $dados["id"];
         $result = $con->query($sql);
-        if ($result->num_rows > 0) {
-            while ($dados = mysqli_fetch_assoc($result)) {
+        if ($result->num_rows) {
+            while ($dados = $result->fetch_assoc()) {
         ?>
 
                 <tr>
-                    <td><?= $id?></td>
+                    <td><?= $id = $dados["id"] ?></td>
                     <td><?= $dados["nome"] ?></td>
                     <td><?= $dados["sobrenome"] ?></td>
                     <td><?= $dados["email"] ?></td>
                     <td><?= $dados["senha"] ?></td>
                     <td><a href="alteracao.php?id=$id">Alterar</a></td>
-                    <td><a href="excluir.php">Excluir</a></td>
+                    <td><a href="excluir.php?id=$id">Excluir</a></td>
                 </tr>
     </table>
         <?php
             }
+        }else{
+            echo "<p style = 'color: red;'>Nenhum registro encontrado no banco</p>";
         }
         ?>
 <button onclick="window.location.replace('index.html')">Voltar para página</button>
