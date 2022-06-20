@@ -35,29 +35,27 @@ include_once("conexao.php");
             $input_vazio = true;
             echo "<p style = 'color: red;'>Por favor, insira um email válido!</p>";
         }
-        //Senão, realize o que está a seguir
-        else {
-            //Se a confirmação da senha for igual a senha, então realize o que está a seguir
-            if ($dados["confirmar_senha"] == $dados["senha"]) {
-                //Comando para inserir os dados no banco
-                $sql = "INSERT INTO usuarios(nome, sobrenome, email, senha, confirmacao_senha) 
+        
+        //Se a confirmação da senha for igual a senha, então realize o que está a seguir
+        if ($dados["confirmar_senha"] == $dados["senha"]) {
+            //Comando para inserir os dados no banco
+            $sql = "INSERT INTO usuarios(nome, sobrenome, email, senha, confirmacao_senha) 
                 VALUES('" . $dados["nome"] . "', '" . $dados["sobrenome"] . "', '" . $dados["email"] . "', 
                 " . $dados["senha"] . ", " . $dados["confirmar_senha"] . ");";
 
-                //Comandos para cadastrar no banco e confirmar o cadastro
-                $result = $con->query($sql);
-                if ($result) {
-                    echo "<p style = 'color: green;'>Cadastrado com sucesso :)</p>";
-                    unset($dados);
+            //Comandos para cadastrar no banco e confirmar o cadastro
+            $result = $con->query($sql);
+            if ($result) {
+                echo "<p style = 'color: green;'>Cadastrado com sucesso :)</p>";
+                unset($dados);
     ?>
-                    <button onclick="window.location.replace('index.html')">Voltar para o ínicio</button>
+                <button onclick="window.location.replace('index.html')">Voltar para o ínicio</button>
     <?php
-                } else {
-                    echo "<p style = 'color: red;'>Não foi possível cadastrar :(</p>";
-                }
             } else {
-                echo "<p style = 'color: red;'>Senha não coincidente</p>";
+                echo "<p style = 'color: red;'>Não foi possível cadastrar :(</p>";
             }
+        } else {
+            echo "<p style = 'color: red;'>Senha não coincidente</p>";
         }
     }
     ?>
