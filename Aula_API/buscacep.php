@@ -20,16 +20,20 @@
     </form>
 
     <?php
+    //include não retorna nenhum erro caso não exista o arquivo, enquanto o require retorna um FATAL_ERROR
+    require_once("funcoes.php");
+
     @$cep = trim($_POST["cep"]);
+    $endereco = "";
 
-    if ($cep != "") {
-        //include não retorna nenhum erro caso não exista o arquivo, enquanto o require retorna um FATAL_ERROR
-        require_once("funcoes.php");
-
-        $endereco = buscarCEP($cep);
+    if (isset($_POST["cep"]) && $cep != "") {
+        $endereco = json_decode(buscarCEP($_POST["cep"]));
+    }
+    if($endereco != ""){
     ?>
-        <p>CEP: <?= $endereco ?></p>
-
+        <p>Resultados da Pesquisa</p>
+        <p>CEP: <?= $endereco->cep?></p>
+        <p>Cidade: <?= $endereco->localidade ?></p>
     <?php
     }
     ?>

@@ -5,8 +5,10 @@ function buscarCEP($cep){
     $cep = str_replace("-", "", $cep);
 
     //pega o conteúdo retornado pela API em formato .json
-    $api = file_get_contents("http://viacep.com.br/ws/$cep/json/");
+    $url = file_get_contents("http://viacep.com.br/ws/$cep/json/");
 
-    //transforma o conteúdo pego pela variavel $api em um formato .json, deixando mais adequado para o uso
-    $json = json_encode($api);
+    if(strlen($url)>0)
+        return $url;
+    else
+        return "";
 }
