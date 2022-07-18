@@ -4,7 +4,7 @@
 
 require_once("conexao.php");
 
-$sql = "SELECT * FROM clientes WHERE username = '$login' AND password = '$senha'";
+$sql = "SELECT * FROM clientes WHERE username = '$usuario' AND password = '$senha'";
 
 $result = $con->query($sql);
 
